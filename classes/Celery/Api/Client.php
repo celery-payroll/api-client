@@ -177,6 +177,41 @@ class Client
         return $this->response->result;
     }
 
+    public function getAccount($domain)
+    {
+        $this->authenticate();
+        $this->restObject = new RestRequest(
+            $this->url . CAPI_CMD_ACCOUNT,
+            "GET",
+            array(
+                "token" => self::$token,
+                "domain" => $domain
+            )
+        );
+        $this->restObject->execute();
+        $this->parseResponse();
+
+        return $this->response->result;
+    }
+
+    public function searchAccount($email, $language = "nl")
+    {
+        $this->authenticate();
+        $this->restObject = new RestRequest(
+            $this->url . CAPI_CMD_ACCOUNT,
+            "GET",
+            array(
+                "token" => self::$token,
+                "search" => $email,
+                "language" => $language
+            )
+        );
+        $this->restObject->execute();
+        $this->parseResponse();
+
+        return $this->response->result;
+    }
+
     public function checkUrl($url)
     {
         $blnReturn = false;
