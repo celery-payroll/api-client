@@ -1,0 +1,21 @@
+{
+    "name": "celery/client-api",
+    "type": "library",
+    "description": "API used to interact with the RESTful side of Celery.",
+    "keywords": ["client", "api"],
+    "homepage": "https://www.celerypayroll.com/",
+    "license": "Apache v2",
+    "authors": [
+        {
+            "name": "Felix Langfeldt",
+            "email": "felix@celerypayroll.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "neverwoods/bili": "1.*"
+    },
+    "autoload": {
+        "psr-0": {"Celery": "classes/"}
+    }
+}
