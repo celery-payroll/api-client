@@ -1,10 +1,10 @@
 {
-    "name": "celery/client-api",
+    "name": "celery/api-client",
     "type": "library",
-    "description": "API used to interact with the RESTful side of Celery.",
+    "description": "Client library to interact with the RESTful API of Celery.",
     "keywords": ["client", "api"],
     "homepage": "https://www.celerypayroll.com/",
-    "license": "Apache v2",
+    "license": "No License",
     "authors": [
         {
             "name": "Felix Langfeldt",
