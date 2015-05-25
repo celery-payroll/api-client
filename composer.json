@@ -11,6 +11,12 @@
             "email": "felix@celerypayroll.com"
         }
     ],
+    "repositories": [
+        {
+            "url": "https://github.com/neverwoods/bili.git",
+            "type": "vcs"
+        }
+    ],
     "require": {
         "php": ">=5.4.0",
         "neverwoods/bili": "1.*"
