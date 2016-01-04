@@ -36,11 +36,13 @@ define("CAPI_INVALID_AFFILIATE", 15);
 define("CAPI_URL_AVAILABLE", 12);
 define("CAPI_ACCOUNT_CREATED", 13);
 define("CAPI_SUCCESS", 14);
+define("CAPI_COMPANY_MOVED", 16);
 
 // Methods
 define("CAPI_CMD_AUTH", "authenticate");
 define("CAPI_CMD_URL", "url");
 define("CAPI_CMD_ACCOUNT", "account");
+define("CAPI_CMD_COMPANY", "company");
 define("CAPI_CMD_PRICE", "price");
 define("CAPI_CMD_SERVICE", "service");
 
@@ -169,6 +171,24 @@ class Client
                 "email" => $email,
                 "language" => $language,
                 "affiliate" => $affiliate
+            )
+        );
+        $this->restObject->execute();
+        $this->parseResponse();
+
+        return $this->response->result;
+    }
+
+    public function moveCompany($companyToken, $accountToken)
+    {
+        $this->authenticate();
+        $this->restObject = new RestRequest(
+            $this->url . CAPI_CMD_COMPANY,
+            "POST",
+            array(
+                "token" => self::$token,
+                "company" => $companyToken,
+                "account" => $accountToken
             )
         );
         $this->restObject->execute();
