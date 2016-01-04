@@ -31,12 +31,16 @@ define("CAPI_UNAVAILABLE", 9);
 define("CAPI_EMPTY_LOGIN", 10);
 define("CAPI_INVALID_LOGIN", 11);
 define("CAPI_INVALID_AFFILIATE", 15);
+define("CAPI_INVALID_SERVICE", 16);
+define("CAPI_ACCOUNT_FOUND", 17);
+define("CAPI_EMPTY_PARAMETER", 19);
+define("CAPI_INVALID_PARAMETER", 20);
 
 // Succes
 define("CAPI_URL_AVAILABLE", 12);
 define("CAPI_ACCOUNT_CREATED", 13);
 define("CAPI_SUCCESS", 14);
-define("CAPI_COMPANY_MOVED", 16);
+define("CAPI_COMPANY_MOVED", 18);
 
 // Methods
 define("CAPI_CMD_AUTH", "authenticate");
