@@ -35,6 +35,7 @@ define("CAPI_INVALID_SERVICE", 16);
 define("CAPI_ACCOUNT_FOUND", 17);
 define("CAPI_EMPTY_PARAMETER", 19);
 define("CAPI_INVALID_PARAMETER", 20);
+define("CAPI_UNKNOWN_ERROR", 21);
 
 // Succes
 define("CAPI_URL_AVAILABLE", 12);
