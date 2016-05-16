@@ -52,6 +52,7 @@ define("CAPI_CMD_COMPANY", "company");
 define("CAPI_CMD_PRICE", "price");
 define("CAPI_CMD_SERVICE", "service");
 define("CAPI_CMD_ACCOUNT_PRICE", "account/price");
+define("CAPI_CMD_ACCOUNT_DISCOUNT", "account/discount");
 
 // Config
 define("CAPI_URL", "https://api.celerypayroll.com/"); // Include the trailing '/'
@@ -214,6 +215,61 @@ class Client
                 "token" => self::$token,
                 "account" => $accountToken,
                 "properties" => $arrProperties
+            )
+        );
+        $this->restObject->execute();
+        $this->parseResponse();
+
+        return $this->response->result;
+    }
+
+    public function createAccountDiscount($accountToken, $arrProperties)
+    {
+        $this->authenticate();
+        $this->restObject = new RestRequest(
+            $this->url . CAPI_CMD_ACCOUNT_DISCOUNT,
+            "POST",
+            array(
+                "token" => self::$token,
+                "account" => $accountToken,
+                "properties" => $arrProperties
+            )
+        );
+        $this->restObject->execute();
+        $this->parseResponse();
+
+        return $this->response->result;
+    }
+
+    public function updateAccountDiscount($accountToken, $discountId, $arrProperties)
+    {
+        $this->authenticate();
+        $this->restObject = new RestRequest(
+            $this->url . CAPI_CMD_ACCOUNT_DISCOUNT,
+            "PUT",
+            array(
+                "token" => self::$token,
+                "account" => $accountToken,
+                "discount" => $discountId,
+                "properties" => $arrProperties
+            )
+        );
+        $this->restObject->execute();
+        $this->parseResponse();
+
+        return $this->response->result;
+    }
+
+    public function deleteAccountDiscount($accountToken, $discountId)
+    {
+        $this->authenticate();
+        $this->restObject = new RestRequest(
+            $this->url . CAPI_CMD_ACCOUNT_DISCOUNT,
+            "DELETE",
+            array(
+                "token" => self::$token,
+                "account" => $accountToken,
+                "discount" => $discountId
             )
         );
         $this->restObject->execute();
