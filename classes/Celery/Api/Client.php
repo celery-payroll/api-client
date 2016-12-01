@@ -53,6 +53,7 @@ define("CAPI_CMD_PRICE", "price");
 define("CAPI_CMD_SERVICE", "service");
 define("CAPI_CMD_ACCOUNT_PRICE", "account/price");
 define("CAPI_CMD_ACCOUNT_DISCOUNT", "account/discount");
+define("CAPI_CMD_ACCOUNT_INVOICE", "account/invoice");
 
 // Config
 define("CAPI_URL", "https://api.celerypayroll.com/"); // Include the trailing '/'
@@ -270,6 +271,23 @@ class Client
                 "token" => self::$token,
                 "account" => $accountToken,
                 "discount" => $discountId
+            )
+        );
+        $this->restObject->execute();
+        $this->parseResponse();
+
+        return $this->response->result;
+    }
+
+    public function createAccountInvoice($accountToken)
+    {
+        $this->authenticate();
+        $this->restObject = new RestRequest(
+            $this->url . CAPI_CMD_ACCOUNT_INVOICE,
+            "POST",
+            array(
+                "token" => self::$token,
+                "account" => $accountToken
             )
         );
         $this->restObject->execute();
