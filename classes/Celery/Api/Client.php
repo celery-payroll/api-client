@@ -54,6 +54,7 @@ define("CAPI_CMD_SERVICE", "service");
 define("CAPI_CMD_ACCOUNT_PRICE", "account/price");
 define("CAPI_CMD_ACCOUNT_DISCOUNT", "account/discount");
 define("CAPI_CMD_ACCOUNT_INVOICE", "account/invoice");
+define("CAPI_CMD_COMPANY_INTEGRATION", "company/integration");
 
 // Config
 define("CAPI_URL", "https://api.celerypayroll.com/"); // Include the trailing '/'
@@ -271,6 +272,25 @@ class Client
                 "token" => self::$token,
                 "account" => $accountToken,
                 "discount" => $discountId
+            )
+        );
+        $this->restObject->execute();
+        $this->parseResponse();
+
+        return $this->response->result;
+    }
+
+    public function updateCompanyIntegration($companyToken, $integrationId, $arrProperties)
+    {
+        $this->authenticate();
+        $this->restObject = new RestRequest(
+            $this->url . CAPI_CMD_COMPANY_INTEGRATION,
+            "PUT",
+            array(
+                "token" => self::$token,
+                "company" => $companyToken,
+                "integration" => $integrationId,
+                "properties" => $arrProperties
             )
         );
         $this->restObject->execute();
