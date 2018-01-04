@@ -55,6 +55,7 @@ define("CAPI_CMD_ACCOUNT_PRICE", "account/price");
 define("CAPI_CMD_ACCOUNT_DISCOUNT", "account/discount");
 define("CAPI_CMD_ACCOUNT_INVOICE", "account/invoice");
 define("CAPI_CMD_COMPANY_INTEGRATION", "company/integration");
+define("CAPI_CMD_ACCOUNT_REMINDERS", "account/reminders");
 
 // Config
 define("CAPI_URL", "https://api.celerypayroll.com/"); // Include the trailing '/'
@@ -212,6 +213,24 @@ class Client
         $this->authenticate();
         $this->restObject = new RestRequest(
             $this->url . CAPI_CMD_ACCOUNT_PRICE,
+            "POST",
+            array(
+                "token" => self::$token,
+                "account" => $accountToken,
+                "properties" => $arrProperties
+            )
+        );
+        $this->restObject->execute();
+        $this->parseResponse();
+
+        return $this->response->result;
+    }
+
+    public function updateAccountReminders($accountToken, $arrProperties)
+    {
+        $this->authenticate();
+        $this->restObject = new RestRequest(
+            $this->url . CAPI_CMD_ACCOUNT_REMINDERS,
             "POST",
             array(
                 "token" => self::$token,
