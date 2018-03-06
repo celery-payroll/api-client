@@ -170,7 +170,7 @@ class Client
         return self::$instance;
     }
 
-    public function createAccount($name, $email, $affiliate, $language = "nl")
+    public function createAccount($name, $email, $affiliate, $language = "nl", $celeryUser = null)
     {
         $this->authenticate();
         $this->restObject = new RestRequest(
@@ -181,7 +181,8 @@ class Client
                 "name" => $name,
                 "email" => $email,
                 "language" => $language,
-                "affiliate" => $affiliate
+                "affiliate" => $affiliate,
+                "celeryUser" => $celeryUser
             )
         );
         $this->restObject->execute();
