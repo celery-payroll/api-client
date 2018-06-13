@@ -356,6 +356,24 @@ class Client
         return $this->response->result;
     }
 
+    public function syncAccountInvoices($accountToken)
+    {
+        $this->authenticate();
+        $this->restObject = new RestRequest(
+            $this->url . CAPI_CMD_ACCOUNT_INVOICE,
+            "POST",
+            array(
+                "token" => self::$token,
+                "action" => "sync",
+                "account" => $accountToken
+            )
+        );
+        $this->restObject->execute();
+        $this->parseResponse();
+
+        return $this->response->result;
+    }
+
     public function sendAccountInvoice($accountToken, $invoiceToken)
     {
         $this->authenticate();
