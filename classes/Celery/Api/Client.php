@@ -78,16 +78,18 @@ class Client
     const ERROR_INVALID_LOGIN = 11;
     const ERROR_INVALID_AFFILIATE = 15;
     const ERROR_INVALID_SERVICE = 16;
-    const ERROR_ACCOUNT_FOUND = 17;
     const ERROR_EMPTY_PARAMETER = 19;
     const ERROR_INVALID_PARAMETER = 20;
     const ERROR_UNKNOWN_ERROR = 21;
+    const ERROR_NOT_FOUND = 404;
 
     const SUCCESS = 14;
     const SUCCESS_URL_AVAILABLE = 12;
     const SUCCESS_ACCOUNT_CREATED = 13;
     const SUCCESS_ACCOUNT_UPDATED = 22;
+    const SUCCESS_ACCOUNT_FOUND = 17;
     const SUCCESS_COMPANY_MOVED = 18;
+    const SUCCESS_USER_AVAILABLE = 24;
 
     const COMMAND_AUTH = "authenticate";
     const COMMAND_URL = "url";
