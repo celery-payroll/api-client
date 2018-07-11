@@ -65,6 +65,45 @@ define("CAPI_URL", "https://api.celerypayroll.com/"); // Include the trailing '/
   */
 class Client
 {
+    const ERROR_EMPTY_ACCOUNT = 1;
+    const ERROR_INVALID_ACCOUNT = 2;
+    const ERROR_EMPTY_EMAIL = 3;
+    const ERROR_INVALID_EMAIL = 4;
+    const ERROR_EMAIL_EXISTS = 5;
+    const ERROR_EMPTY_URL = 6;
+    const ERROR_INVALID_URL = 7;
+    const ERROR_URL_EXISTS = 8;
+    const ERROR_UNAVAILABLE = 9;
+    const ERROR_EMPTY_LOGIN = 10;
+    const ERROR_INVALID_LOGIN = 11;
+    const ERROR_INVALID_AFFILIATE = 15;
+    const ERROR_INVALID_SERVICE = 16;
+    const ERROR_ACCOUNT_FOUND = 17;
+    const ERROR_EMPTY_PARAMETER = 19;
+    const ERROR_INVALID_PARAMETER = 20;
+    const ERROR_UNKNOWN_ERROR = 21;
+
+    const SUCCESS = 14;
+    const SUCCESS_URL_AVAILABLE = 12;
+    const SUCCESS_ACCOUNT_CREATED = 13;
+    const SUCCESS_ACCOUNT_UPDATED = 22;
+    const SUCCESS_COMPANY_MOVED = 18;
+
+    const COMMAND_AUTH = "authenticate";
+    const COMMAND_URL = "url";
+    const COMMAND_ACCOUNT = "account";
+    const COMMAND_COMPANY = "company";
+    const COMMAND_SERVICE = "service";
+    const COMMAND_ACCOUNT_PRICE = "account/price";
+    const COMMAND_ACCOUNT_DISCOUNT = "account/discount";
+    const COMMAND_ACCOUNT_INVOICE = "account/invoice";
+    const COMMAND_COMPANY_INTEGRATION = "company/integration";
+    const COMMAND_ACCOUNT_REMINDERS = "account/reminders";
+    const COMMAND_USER_NOTIFICATION = "user/notification";
+
+    const API_URL = "https://api.celerypayroll.com/"; // Include the trailing '/'
+
+    /* @var $restObject \Bili\RestRequest */
     private $restObject;
     private $response;
     private $user;
@@ -76,9 +115,9 @@ class Client
 
     /**
      * Constructor
-     * @param string $strUser API Username
-     * @param string $strPass API Password
-     * @param string $strUrl API Url
+     * @param string|null $user API Username
+     * @param string|null $pass API Password
+     * @param string|null $url API Url
      *
      * @return void
      */
@@ -86,7 +125,7 @@ class Client
     {
         $this->user = $user;
         $this->pass = $pass;
-        $this->url = (is_null($url)) ? CAPI_URL : $url;
+        $this->url = (is_null($url)) ? static::API_URL : $url;
     }
 
     private function authenticate()
@@ -94,7 +133,7 @@ class Client
         if (empty(self::$token)) {
             if (!empty($this->user) && !empty($this->pass)) {
                 $this->restObject = new RestRequest(
-                    $this->url . CAPI_CMD_AUTH,
+                    $this->url . static::COMMAND_AUTH,
                     "POST",
                     array(
                         "username" => $this->user,
@@ -113,9 +152,9 @@ class Client
      * Check if the server response contains an error.
      *
      * @param object $objResponse A JSON object
-     *
      * @return void
      * @throws \InvalidArgumentException
+     * @throws \Exception
      */
     private function checkResponseError($objResponse)
     {
@@ -148,8 +187,10 @@ class Client
     /**
      * Create a new instance of the Client class
      *
-     * @return Client Singleton instance of Client
-     * @throws \Exception
+     * @param string $user API Username
+     * @param string $pass API Password
+     * @param string|null $url API Url
+     * @return Client|null
      */
     public static function singleton($user, $pass, $url = null)
     {
@@ -164,7 +205,7 @@ class Client
      * @return Client Singleton instance of Client
      * @throws \Exception
      */
-    public static function getInstance($user = null, $pass = null, $url = null)
+    public static function getInstance()
     {
         /* Get the singleton instance for this class */
         return self::$instance;
@@ -174,7 +215,7 @@ class Client
     {
         $this->authenticate();
         $this->restObject = new RestRequest(
-            $this->url . CAPI_CMD_ACCOUNT,
+            $this->url . static::COMMAND_ACCOUNT,
             "POST",
             array(
                 "token" => self::$token,
@@ -195,7 +236,7 @@ class Client
     {
         $this->authenticate();
         $this->restObject = new RestRequest(
-            $this->url . CAPI_CMD_ACCOUNT,
+            $this->url . static::COMMAND_ACCOUNT,
             "POST",
             array(
                 "token" => self::$token,
@@ -213,7 +254,7 @@ class Client
     {
         $this->authenticate();
         $this->restObject = new RestRequest(
-            $this->url . CAPI_CMD_ACCOUNT_PRICE,
+            $this->url . static::COMMAND_ACCOUNT_PRICE,
             "POST",
             array(
                 "token" => self::$token,
@@ -231,7 +272,7 @@ class Client
     {
         $this->authenticate();
         $this->restObject = new RestRequest(
-            $this->url . CAPI_CMD_ACCOUNT_REMINDERS,
+            $this->url . static::COMMAND_ACCOUNT_REMINDERS,
             "POST",
             array(
                 "token" => self::$token,
@@ -249,7 +290,7 @@ class Client
     {
         $this->authenticate();
         $this->restObject = new RestRequest(
-            $this->url . CAPI_CMD_ACCOUNT_DISCOUNT,
+            $this->url . static::COMMAND_ACCOUNT_DISCOUNT,
             "POST",
             array(
                 "token" => self::$token,
@@ -267,7 +308,7 @@ class Client
     {
         $this->authenticate();
         $this->restObject = new RestRequest(
-            $this->url . CAPI_CMD_ACCOUNT_DISCOUNT,
+            $this->url . static::COMMAND_ACCOUNT_DISCOUNT,
             "PUT",
             array(
                 "token" => self::$token,
@@ -286,7 +327,7 @@ class Client
     {
         $this->authenticate();
         $this->restObject = new RestRequest(
-            $this->url . CAPI_CMD_ACCOUNT_DISCOUNT,
+            $this->url . static::COMMAND_ACCOUNT_DISCOUNT,
             "DELETE",
             array(
                 "token" => self::$token,
@@ -304,7 +345,7 @@ class Client
     {
         $this->authenticate();
         $this->restObject = new RestRequest(
-            $this->url . CAPI_CMD_COMPANY_INTEGRATION,
+            $this->url . static::COMMAND_COMPANY_INTEGRATION,
             "PUT",
             array(
                 "token" => self::$token,
@@ -323,7 +364,7 @@ class Client
     {
         $this->authenticate();
         $this->restObject = new RestRequest(
-            $this->url . CAPI_CMD_ACCOUNT_INVOICE,
+            $this->url . static::COMMAND_ACCOUNT_INVOICE,
             "POST",
             array(
                 "token" => self::$token,
@@ -341,7 +382,7 @@ class Client
     {
         $this->authenticate();
         $this->restObject = new RestRequest(
-            $this->url . CAPI_CMD_ACCOUNT_INVOICE,
+            $this->url . static::COMMAND_ACCOUNT_INVOICE,
             "POST",
             array(
                 "token" => self::$token,
@@ -360,7 +401,7 @@ class Client
     {
         $this->authenticate();
         $this->restObject = new RestRequest(
-            $this->url . CAPI_CMD_ACCOUNT_INVOICE,
+            $this->url . static::COMMAND_ACCOUNT_INVOICE,
             "POST",
             array(
                 "token" => self::$token,
@@ -378,7 +419,7 @@ class Client
     {
         $this->authenticate();
         $this->restObject = new RestRequest(
-            $this->url . CAPI_CMD_ACCOUNT_INVOICE,
+            $this->url . static::COMMAND_ACCOUNT_INVOICE,
             "POST",
             array(
                 "token" => self::$token,
@@ -397,7 +438,7 @@ class Client
     {
         $this->authenticate();
         $this->restObject = new RestRequest(
-            $this->url . CAPI_CMD_COMPANY,
+            $this->url . static::COMMAND_COMPANY,
             "POST",
             array(
                 "token" => self::$token,
@@ -415,7 +456,7 @@ class Client
     {
         $this->authenticate();
         $this->restObject = new RestRequest(
-            $this->url . CAPI_CMD_ACCOUNT,
+            $this->url . static::COMMAND_ACCOUNT,
             "GET",
             array(
                 "token" => self::$token,
@@ -432,7 +473,7 @@ class Client
     {
         $this->authenticate();
         $this->restObject = new RestRequest(
-            $this->url . CAPI_CMD_ACCOUNT,
+            $this->url . static::COMMAND_ACCOUNT,
             "GET",
             array(
                 "token" => self::$token,
@@ -446,49 +487,25 @@ class Client
         return $this->response->result;
     }
 
-    public function checkUrl($url)
+    public function sendNotification(array $arrNotification)
     {
-        $blnReturn = false;
+        $this->authenticate();
         $this->restObject = new RestRequest(
-            $this->url . CAPI_CMD_URL,
+            $this->url . static::COMMAND_USER_NOTIFICATION,
             "POST",
             array(
-                "url" => $url
+                "token" => self::$token,
+                "notification" => $arrNotification
             )
         );
-
         $this->restObject->execute();
         $this->parseResponse();
 
-        if (property_exists($this->response, "result")) {
-            $blnReturn = ($this->response->result->code == CAPI_URL_AVAILABLE);
-        }
-
-        return $blnReturn;
-    }
-
-    public function getPrice($intCompanies, $intEmployees)
-    {
-        $blnReturn = false;
-        $this->restObject = new RestRequest(
-            $this->url . CAPI_CMD_PRICE,
-            "POST",
-            array(
-                "companies" => $intCompanies,
-                "employees" => $intEmployees,
-            )
-        );
-
-        $this->restObject->execute();
-        $this->parseResponse();
-
-        return $this->response->result->message;
+        return $this->response->result;
     }
 
     public function call($strMethod)
     {
-        $blnReturn = false;
-
         $strUrl = str_replace(".", "/", $strMethod);
 
         $this->authenticate();
