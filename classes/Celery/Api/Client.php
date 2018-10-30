@@ -343,7 +343,7 @@ class Client
         return $this->response->result;
     }
 
-    public function updateCompanyIntegration($companyToken, $integrationId, $arrProperties)
+    public function updateCompanyIntegration($accountToken, $companyToken, $integrationId, $arrProperties)
     {
         $this->authenticate();
         $this->restObject = new RestRequest(
@@ -351,6 +351,7 @@ class Client
             "PUT",
             array(
                 "token" => self::$token,
+                "account" => $accountToken,
                 "company" => $companyToken,
                 "integration" => $integrationId,
                 "properties" => $arrProperties
@@ -436,7 +437,7 @@ class Client
         return $this->response->result;
     }
 
-    public function moveCompany($companyToken, $accountToken)
+    public function moveCompany($originAccountToken, $companyToken, $accountToken)
     {
         $this->authenticate();
         $this->restObject = new RestRequest(
@@ -444,8 +445,9 @@ class Client
             "POST",
             array(
                 "token" => self::$token,
+                "account" => $originAccountToken,
                 "company" => $companyToken,
-                "account" => $accountToken
+                "destination" => $accountToken
             )
         );
         $this->restObject->execute();
