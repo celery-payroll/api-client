@@ -217,8 +217,14 @@ class Client
         return self::$instance;
     }
 
-    public function createAccount($name, $email, $affiliate, $language = "nl", $celeryUser = null)
-    {
+    public function createAccount(
+        $name,
+        $email,
+        $affiliate,
+        $language = "nl",
+        $celeryUser = null,
+        $overrideExistingUser = true
+    ){
         $this->authenticate();
         $this->restObject = new RestRequest(
             $this->url . static::COMMAND_ACCOUNT,
@@ -229,7 +235,8 @@ class Client
                 "email" => $email,
                 "language" => $language,
                 "affiliate" => $affiliate,
-                "celeryUser" => $celeryUser
+                "celeryUser" => $celeryUser,
+                "overrideUser" => (bool) $overrideExistingUser
             )
         );
         $this->restObject->execute();
