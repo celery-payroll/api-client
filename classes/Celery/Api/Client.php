@@ -23,7 +23,7 @@ define("CAPI_EMPTY_ACCOUNT", 1);
 define("CAPI_INVALID_ACCOUNT", 2);
 define("CAPI_EMPTY_EMAIL", 3);
 define("CAPI_INVALID_EMAIL", 4);
-define("CAPI_EMAIL_EXISTS", 5);
+define("CAPI_USER_ACCOUNT_EXISTS", 5);
 define("CAPI_EMPTY_URL", 6);
 define("CAPI_INVALID_URL", 7);
 define("CAPI_URL_EXISTS", 8);
@@ -36,6 +36,8 @@ define("CAPI_ACCOUNT_FOUND", 17);
 define("CAPI_EMPTY_PARAMETER", 19);
 define("CAPI_INVALID_PARAMETER", 20);
 define("CAPI_UNKNOWN_ERROR", 21);
+define("CAPI_HAS_ACTIVE_TRIAL_ACCOUNT", 22);
+define("CAPI_NOT_FOUND", 404);
 
 // Succes
 define("CAPI_URL_AVAILABLE", 12);
@@ -43,6 +45,7 @@ define("CAPI_ACCOUNT_CREATED", 13);
 define("CAPI_ACCOUNT_UPDATED", 22);
 define("CAPI_SUCCESS", 14);
 define("CAPI_COMPANY_MOVED", 18);
+define("CAPI_USER_AVAILABLE", 24);
 
 // Methods
 define("CAPI_CMD_AUTH", "authenticate");
@@ -69,7 +72,7 @@ class Client
     const ERROR_INVALID_ACCOUNT = 2;
     const ERROR_EMPTY_EMAIL = 3;
     const ERROR_INVALID_EMAIL = 4;
-    const ERROR_EMAIL_EXISTS = 5;
+    const ERROR_USER_ACCOUNT_EXISTS = 5;
     const ERROR_EMPTY_URL = 6;
     const ERROR_INVALID_URL = 7;
     const ERROR_URL_EXISTS = 8;
@@ -81,6 +84,7 @@ class Client
     const ERROR_EMPTY_PARAMETER = 19;
     const ERROR_INVALID_PARAMETER = 20;
     const ERROR_UNKNOWN_ERROR = 21;
+    const ERROR_HAS_ACTIVE_TRIAL_ACCOUNT = 22;
     const ERROR_NOT_FOUND = 404;
 
     const SUCCESS = 14;
