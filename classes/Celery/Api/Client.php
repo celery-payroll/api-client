@@ -84,7 +84,7 @@ class Client
     const ERROR_EMPTY_PARAMETER = 19;
     const ERROR_INVALID_PARAMETER = 20;
     const ERROR_UNKNOWN_ERROR = 21;
-    const ERROR_HAS_ACTIVE_TRIAL_ACCOUNT = 22;
+    const ERROR_HAS_ACTIVE_TRIAL_ACCOUNT = 23;
     const ERROR_NOT_FOUND = 404;
 
     const SUCCESS = 14;
@@ -94,6 +94,7 @@ class Client
     const SUCCESS_ACCOUNT_FOUND = 17;
     const SUCCESS_COMPANY_MOVED = 18;
     const SUCCESS_USER_AVAILABLE = 24;
+    const SUCCESS_COMPANY_UPDATED = 25;
 
     const COMMAND_AUTH = "authenticate";
     const COMMAND_URL = "url";
@@ -354,6 +355,24 @@ class Client
         return $this->response->result;
     }
 
+    public function updateCompany($companyToken, $arrProperties)
+    {
+        $this->authenticate();
+        $this->restObject = new RestRequest(
+            $this->url . static::COMMAND_COMPANY,
+            "POST",
+            array(
+                "token" => self::$token,
+                "company" => $companyToken,
+                "properties" => $arrProperties
+            )
+        );
+        $this->restObject->execute();
+        $this->parseResponse();
+
+        return $this->response->result;
+    }
+
     public function updateCompanyIntegration($companyToken, $integrationId, $arrProperties)
     {
         $this->authenticate();
@@ -456,7 +475,8 @@ class Client
             array(
                 "token" => self::$token,
                 "company" => $companyToken,
-                "account" => $accountToken
+                "account" => $accountToken,
+                "action" => "move"
             )
         );
         $this->restObject->execute();
