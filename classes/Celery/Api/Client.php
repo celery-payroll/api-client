@@ -355,7 +355,7 @@ class Client
         return $this->response->result;
     }
 
-    public function updateCompany($companyToken, $arrProperties)
+    public function updateCompany($accountToken, $companyToken, $arrProperties)
     {
         $this->authenticate();
         $this->restObject = new RestRequest(
@@ -363,6 +363,7 @@ class Client
             "POST",
             array(
                 "token" => self::$token,
+                "account" => $accountToken,
                 "company" => $companyToken,
                 "properties" => $arrProperties
             )
