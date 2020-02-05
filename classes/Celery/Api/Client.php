@@ -579,6 +579,8 @@ class Client
 
     public function deleteSsoContext($strProviderId, $strSource, $intContextId = null)
     {
+        $this->authenticate();
+        
         $arrParameters = [
             "token" => self::$token,
             "providerId" => $strProviderId,
@@ -589,7 +591,6 @@ class Client
             $arrParameters["contextId"] = $intContextId;
         }
 
-        $this->authenticate();
         $this->restObject = new RestRequest(
             $this->url . static::COMMAND_SSO_CONTEXT,
             "DELETE",
