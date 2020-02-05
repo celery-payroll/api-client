@@ -107,6 +107,7 @@ class Client
     const COMMAND_COMPANY_INTEGRATION = "company/integration";
     const COMMAND_ACCOUNT_REMINDERS = "account/reminders";
     const COMMAND_USER_NOTIFICATION = "user/notification";
+    const COMMAND_SSO_CONTEXT = "sso/context";
 
     const API_URL = "https://api.celerypayroll.com/"; // Include the trailing '/'
 
@@ -533,6 +534,66 @@ class Client
                 "token" => self::$token,
                 "notification" => $arrNotification
             )
+        );
+        $this->restObject->execute();
+        $this->parseResponse();
+
+        return $this->response->result;
+    }
+
+    public function getSsoContexts($strProviderId)
+    {
+        $this->authenticate();
+        $this->restObject = new RestRequest(
+            $this->url . static::COMMAND_SSO_CONTEXT,
+            "GET",
+            array(
+                "token" => self::$token,
+                "providerId" => $strProviderId
+            )
+        );
+        $this->restObject->execute();
+        $this->parseResponse();
+
+        return $this->response->result;
+    }
+
+    public function setSsoContexts($strProviderId, $strSource, $arrContexts)
+    {
+        $this->authenticate();
+        $this->restObject = new RestRequest(
+            $this->url . static::COMMAND_SSO_CONTEXT,
+            "POST",
+            array(
+                "token" => self::$token,
+                "providerId" => $strProviderId,
+                "source" => $strSource,
+                "data" => $arrContexts
+            )
+        );
+        $this->restObject->execute();
+        $this->parseResponse();
+
+        return $this->response->result;
+    }
+
+    public function deleteSsoContext($strProviderId, $strSource, $intContextId = null)
+    {
+        $arrParameters = [
+            "token" => self::$token,
+            "providerId" => $strProviderId,
+            "source" => $strSource
+        ];
+
+        if (!empty($intContextId)) {
+            $arrParameters["contextId"] = $intContextId;
+        }
+
+        $this->authenticate();
+        $this->restObject = new RestRequest(
+            $this->url . static::COMMAND_SSO_CONTEXT,
+            "DELETE",
+            $arrParameters
         );
         $this->restObject->execute();
         $this->parseResponse();
