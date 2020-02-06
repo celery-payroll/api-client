@@ -107,6 +107,7 @@ class Client
     const COMMAND_COMPANY_INTEGRATION = "company/integration";
     const COMMAND_ACCOUNT_REMINDERS = "account/reminders";
     const COMMAND_USER_NOTIFICATION = "user/notification";
+    const COMMAND_USER_CONTEXT = "user/context";
     const COMMAND_SSO_CONTEXT = "sso/context";
 
     const API_URL = "https://api.celerypayroll.com/"; // Include the trailing '/'
@@ -530,6 +531,24 @@ class Client
             array(
                 "token" => self::$token,
                 "notification" => $arrNotification
+            )
+        );
+        $this->restObject->execute();
+        $this->parseResponse();
+
+        return $this->response->result;
+    }
+
+    public function impersonateUserContext($intUserContextId, $intUserId)
+    {
+        $this->authenticate();
+        $this->restObject = new RestRequest(
+            $this->url . static::COMMAND_USER_CONTEXT,
+            "POST",
+            array(
+                "token" => self::$token,
+                "contextId" => $intUserContextId,
+                "userId" => $intUserId
             )
         );
         $this->restObject->execute();
