@@ -103,6 +103,7 @@ class Client
     const COMMAND_SERVICE = "service";
     const COMMAND_ACCOUNT_PRICE = "account/price";
     const COMMAND_ACCOUNT_DISCOUNT = "account/discount";
+    const COMMAND_ACCOUNT_NOTE = "account/note";
     const COMMAND_ACCOUNT_INVOICE = "account/invoice";
     const COMMAND_COMPANY_INTEGRATION = "company/integration";
     const COMMAND_ACCOUNT_REMINDERS = "account/reminders";
@@ -648,5 +649,111 @@ class Client
         } else {
             throw new \Exception("Invalid argument passed to setToken(). Object expected.");
         }
+    }
+
+    /**
+     * Creates an account note.
+     *
+     * @param $accountToken
+     * @param $arrProperties
+     * @return mixed
+     * @throws \Exception
+     */
+    public function createAccountNote($accountToken, $arrProperties)
+    {
+        $this->authenticate();
+        $this->restObject = new RestRequest(
+            $this->url . static::COMMAND_ACCOUNT_NOTE,
+            "POST",
+            array(
+                "token" => self::$token,
+                "account" => $accountToken,
+                "action" => "create",
+                "properties" => $arrProperties
+            )
+        );
+        $this->restObject->execute();
+        $this->parseResponse();
+
+        return $this->response->result;
+    }
+
+    /**
+     * Updates an account note.
+     *
+     * @param $accountToken
+     * @param $noteId
+     * @param $arrProperties
+     * @return mixed
+     * @throws \Exception
+     */
+    public function updateAccountNote($accountToken, $noteId, $arrProperties)
+    {
+        $this->authenticate();
+        $this->restObject = new RestRequest(
+            $this->url . static::COMMAND_ACCOUNT_NOTE,
+            "PUT",
+            array(
+                "token" => self::$token,
+                "account" => $accountToken,
+                "note" => $noteId,
+                "properties" => $arrProperties
+            )
+        );
+        $this->restObject->execute();
+        $this->parseResponse();
+
+        return $this->response->result;
+    }
+
+    /**
+     * Deletes an account note.
+     *
+     * @param $accountToken
+     * @param $noteId
+     * @return mixed
+     * @throws \Exception
+     */
+    public function deleteAccountNote($accountToken, $noteId)
+    {
+        $this->authenticate();
+        $this->restObject = new RestRequest(
+            $this->url . static::COMMAND_ACCOUNT_NOTE,
+            "DELETE",
+            array(
+                "token" => self::$token,
+                "account" => $accountToken,
+                "note" => $noteId
+            )
+        );
+        $this->restObject->execute();
+        $this->parseResponse();
+
+        return $this->response->result;
+    }
+
+    /**
+     * Syncs Xero contact notes to account notes.
+     *
+     * @param $accountToken
+     * @return mixed
+     * @throws \Exception
+     */
+    public function syncAccountNotes($accountToken)
+    {
+        $this->authenticate();
+        $this->restObject = new RestRequest(
+            $this->url . static::COMMAND_ACCOUNT_NOTE,
+            "POST",
+            array(
+                "token" => self::$token,
+                "account" => $accountToken,
+                "action" => "sync",
+            )
+        );
+        $this->restObject->execute();
+        $this->parseResponse();
+
+        return $this->response->result;
     }
 }
