@@ -471,7 +471,7 @@ class Client
         return $this->response->result;
     }
 
-    public function moveCompany($originAccountToken, $companyToken, $accountToken)
+    public function moveCompany($originAccountToken, $companyToken, $accountToken, $strNotificationEmail)
     {
         $this->authenticate();
         $this->restObject = new RestRequest(
@@ -482,6 +482,7 @@ class Client
                 "account" => $originAccountToken,
                 "company" => $companyToken,
                 "destination" => $accountToken,
+                "notificationEmail" => $strNotificationEmail,
                 "action" => "move"
             )
         );
@@ -600,7 +601,7 @@ class Client
     public function deleteSsoContext($strProviderId, $strSource, $intContextId = null)
     {
         $this->authenticate();
-        
+
         $arrParameters = [
             "token" => self::$token,
             "providerId" => $strProviderId,
