@@ -63,9 +63,9 @@ define("CAPI_CMD_ACCOUNT_REMINDERS", "account/reminders");
 // Config
 define("CAPI_URL", "https://api.celerypayroll.com/"); // Include the trailing '/'
 
- /**
-  * Client API class
-  */
+/**
+ * Client API class
+ */
 class Client
 {
     const ERROR_EMPTY_ACCOUNT = 1;
@@ -99,6 +99,8 @@ class Client
     const COMMAND_AUTH = "authenticate";
     const COMMAND_URL = "url";
     const COMMAND_ACCOUNT = "account";
+    const COMMAND_AFFILIATE = "affiliate";
+    const COMMAND_AFFILIATE_BILL = "affiliate/bill";
     const COMMAND_COMPANY = "company";
     const COMMAND_SERVICE = "service";
     const COMMAND_ACCOUNT_PRICE = "account/price";
@@ -241,6 +243,53 @@ class Client
                 "affiliate" => $affiliate,
                 "celeryUser" => $celeryUser,
                 "overrideUser" => (bool) $overrideExistingUser
+            )
+        );
+        $this->restObject->execute();
+        $this->parseResponse();
+
+        return $this->response->result;
+    }
+
+    public function createAffiliate(
+        $name,
+        $email,
+        $countryCode,
+        $firstName,
+        $lastName,
+        $partnerType,
+        $revenueType
+    ){
+        $this->authenticate();
+        $this->restObject = new RestRequest(
+            $this->url . static::COMMAND_AFFILIATE,
+            "POST",
+            array(
+                "token" => self::$token,
+                "name" => $name,
+                "email" => $email,
+                "countryCode" => $countryCode,
+                "firstName" => $firstName,
+                "lastName" => $lastName,
+                "partnerType" => $partnerType,
+                "revenueType" => $revenueType
+            )
+        );
+        $this->restObject->execute();
+        $this->parseResponse();
+
+        return $this->response->result;
+    }
+
+    public function syncAffiliateBills($affiliateToken)
+    {
+        $this->authenticate();
+        $this->restObject = new RestRequest(
+            $this->url . static::COMMAND_AFFILIATE_BILL,
+            "POST",
+            array(
+                "token" => self::$token,
+                "affiliate" => $affiliateToken
             )
         );
         $this->restObject->execute();
