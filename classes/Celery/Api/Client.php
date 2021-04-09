@@ -281,6 +281,24 @@ class Client
         return $this->response->result;
     }
 
+    public function updateAffiliate($affiliateToken, $arrProperties)
+    {
+        $this->authenticate();
+        $this->restObject = new RestRequest(
+            $this->url . static::COMMAND_AFFILIATE,
+            "POST",
+            array(
+                "token" => self::$token,
+                "affiliate" => $affiliateToken,
+                "properties" => $arrProperties
+            )
+        );
+        $this->restObject->execute();
+        $this->parseResponse();
+
+        return $this->response->result;
+    }
+
     public function syncAffiliateBills($affiliateToken)
     {
         $this->authenticate();
