@@ -104,6 +104,7 @@ class Client
     const COMMAND_COMPANY = "company";
     const COMMAND_SERVICE = "service";
     const COMMAND_ACCOUNT_PRICE = "account/price";
+    const COMMAND_ACCOUNT_PRICE_PRODUCT = "account/price/product";
     const COMMAND_ACCOUNT_DISCOUNT = "account/discount";
     const COMMAND_ACCOUNT_NOTE = "account/note";
     const COMMAND_ACCOUNT_INVOICE = "account/invoice";
@@ -362,6 +363,62 @@ class Client
                 "token" => self::$token,
                 "account" => $accountToken,
                 "properties" => $arrProperties
+            )
+        );
+        $this->restObject->execute();
+        $this->parseResponse();
+
+        return $this->response->result;
+    }
+
+    public function createAccountPriceProduct($accountToken, $accountPlanId, $arrProperties)
+    {
+        $this->authenticate();
+        $this->restObject = new RestRequest(
+            $this->url . static::COMMAND_ACCOUNT_PRICE_PRODUCT,
+            "POST",
+            array(
+                "token" => self::$token,
+                "account" => $accountToken,
+                "plan" => $accountPlanId,
+                "properties" => $arrProperties
+            )
+        );
+        $this->restObject->execute();
+        $this->parseResponse();
+
+        return $this->response->result;
+    }
+
+    public function updateAccountPriceProduct($accountToken, $priceProductId, $arrProperties)
+    {
+        $this->authenticate();
+        $this->restObject = new RestRequest(
+            $this->url . static::COMMAND_ACCOUNT_PRICE_PRODUCT,
+            "PUT",
+            array(
+                "token" => self::$token,
+                "account" => $accountToken,
+                "product" => $priceProductId,
+                "properties" => $arrProperties
+            )
+        );
+        $this->restObject->execute();
+        $this->parseResponse();
+
+        return $this->response->result;
+    }
+
+    public function deleteAccountPriceProduct($accountToken, $priceProductId)
+    {
+        $this->authenticate();
+        $this->restObject = new RestRequest(
+            $this->url . static::COMMAND_ACCOUNT_PRICE_PRODUCT,
+            "DELETE",
+            array(
+                "token" => self::$token,
+                "account" => $accountToken,
+                "product" => $priceProductId
             )
         );
         $this->restObject->execute();
