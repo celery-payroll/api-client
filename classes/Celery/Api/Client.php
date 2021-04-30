@@ -109,7 +109,6 @@ class Client
     const COMMAND_ACCOUNT_NOTE = "account/note";
     const COMMAND_ACCOUNT_INVOICE = "account/invoice";
     const COMMAND_COMPANY_INTEGRATION = "company/integration";
-    const COMMAND_COMPANY_DISCOUNT = "company/discount";
     const COMMAND_ACCOUNT_REMINDERS = "account/reminders";
     const COMMAND_USER_NOTIFICATION = "user/notification";
     const COMMAND_USER_CONTEXT = "user/context";
@@ -494,64 +493,6 @@ class Client
                 "account" => $accountToken,
                 "company" => $companyToken,
                 "properties" => $arrProperties
-            )
-        );
-        $this->restObject->execute();
-        $this->parseResponse();
-
-        return $this->response->result;
-    }
-
-    public function createCompanyDiscount($accountToken, $companyToken, $arrProperties)
-    {
-        $this->authenticate();
-        $this->restObject = new RestRequest(
-            $this->url . static::COMMAND_COMPANY_DISCOUNT,
-            "POST",
-            array(
-                "token" => self::$token,
-                "account" => $accountToken,
-                "company" => $companyToken,
-                "properties" => $arrProperties
-            )
-        );
-        $this->restObject->execute();
-        $this->parseResponse();
-
-        return $this->response->result;
-    }
-
-    public function updateCompanyDiscount($accountToken, $companyToken, $discountId, $arrProperties)
-    {
-        $this->authenticate();
-        $this->restObject = new RestRequest(
-            $this->url . static::COMMAND_COMPANY_DISCOUNT,
-            "PUT",
-            array(
-                "token" => self::$token,
-                "account" => $accountToken,
-                "company" => $companyToken,
-                "discount" => $discountId,
-                "properties" => $arrProperties
-            )
-        );
-        $this->restObject->execute();
-        $this->parseResponse();
-
-        return $this->response->result;
-    }
-
-    public function deleteCompanyDiscount($accountToken, $companyToken, $discountId)
-    {
-        $this->authenticate();
-        $this->restObject = new RestRequest(
-            $this->url . static::COMMAND_COMPANY_DISCOUNT,
-            "DELETE",
-            array(
-                "token" => self::$token,
-                "account" => $accountToken,
-                "company" => $companyToken,
-                "discount" => $discountId
             )
         );
         $this->restObject->execute();
