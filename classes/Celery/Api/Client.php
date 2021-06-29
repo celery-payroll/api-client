@@ -113,6 +113,7 @@ class Client
     const COMMAND_USER_NOTIFICATION = "user/notification";
     const COMMAND_USER_CONTEXT = "user/context";
     const COMMAND_SSO_CONTEXT = "sso/context";
+    const COMMAND_ACCOUNT_USER = "account/user";
 
     const API_URL = "https://api.celerypayroll.com/"; // Include the trailing '/'
 
@@ -677,6 +678,24 @@ class Client
             array(
                 "token" => self::$token,
                 "contextId" => $intUserContextId,
+                "userId" => $intUserId
+            )
+        );
+        $this->restObject->execute();
+        $this->parseResponse();
+
+        return $this->response->result;
+    }
+
+    public function addAccountUser($intAccountId, $intUserId)
+    {
+        $this->authenticate();
+        $this->restObject = new RestRequest(
+            $this->url . static::COMMAND_ACCOUNT_USER,
+            "POST",
+            array(
+                "token" => self::$token,
+                "accountId" => $intAccountId,
                 "userId" => $intUserId
             )
         );
