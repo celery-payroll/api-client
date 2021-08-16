@@ -705,6 +705,24 @@ class Client
         return $this->response->result;
     }
 
+    public function removeAccountUser($intAccountId, $intUserId)
+    {
+        $this->authenticate();
+        $this->restObject = new RestRequest(
+            $this->url . static::COMMAND_ACCOUNT_USER,
+            "DELETE",
+            array(
+                "token" => self::$token,
+                "accountId" => $intAccountId,
+                "userId" => $intUserId
+            )
+        );
+        $this->restObject->execute();
+        $this->parseResponse();
+
+        return $this->response->result;
+    }
+
     public function getSsoContexts($strProviderId)
     {
         $this->authenticate();
