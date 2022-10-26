@@ -18,9 +18,9 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=7.4",
         "ext-json": "*",
-        "neverwoods/bili": "1.*"
+        "neverwoods/bili": "1.*|2.*"
     },
     "autoload": {
         "psr-0": {"Celery": "classes/"}
