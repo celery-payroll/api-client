@@ -20,7 +20,7 @@
     "require": {
         "php": ">=7.4",
         "ext-json": "*",
-        "neverwoods/bili": "1.*|2.*|3.*"
+        "neverwoods/bili": "4.*"
     },
     "autoload": {
         "psr-0": {"Celery": "classes/"}
