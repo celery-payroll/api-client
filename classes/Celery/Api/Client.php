@@ -232,7 +232,9 @@ class Client
         $language = "nl",
         $celeryUser = null,
         $overrideExistingUser = true,
-        $promoCode = null
+        $promoCode = null,
+        $firstName = null,
+        $lastName = null
     ){
         $this->authenticate();
         $this->restObject = new RestRequest(
@@ -246,7 +248,9 @@ class Client
                 "affiliate" => $affiliate,
                 "celeryUser" => $celeryUser,
                 "overrideUser" => (bool) $overrideExistingUser,
-                "promoCode" => $promoCode
+                "promoCode" => $promoCode,
+                "firstName" => $firstName,
+                "lastName" => $lastName
             )
         );
         $this->restObject->execute();
