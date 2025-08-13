@@ -53,6 +53,7 @@ define("CAPI_CMD_URL", "url");
 define("CAPI_CMD_ACCOUNT", "account");
 define("CAPI_CMD_COMPANY", "company");
 define("CAPI_CMD_PRICE", "price");
+define("CAPI_CMD_PAYRUN", "payrun");
 define("CAPI_CMD_SERVICE", "service");
 define("CAPI_CMD_ACCOUNT_PRICE", "account/price");
 define("CAPI_CMD_ACCOUNT_DISCOUNT", "account/discount");
@@ -114,6 +115,7 @@ class Client
     const COMMAND_USER_CONTEXT = "user/context";
     const COMMAND_SSO_CONTEXT = "sso/context";
     const COMMAND_ACCOUNT_USER = "account/user";
+    const COMMAND_PAYRUN = "payrun";
 
     const API_URL = "https://api.celerypayroll.com/"; // Include the trailing '/'
 
@@ -917,6 +919,66 @@ class Client
                 "token" => self::$token,
                 "account" => $accountToken,
                 "action" => "sync",
+            )
+        );
+        $this->restObject->execute();
+        $this->parseResponse();
+
+        return $this->response->result;
+    }
+
+    /**
+     * Retrieves the payrun list for a specific company using the provided account and company tokens.
+     *
+     * @param string $accountToken The token for the account to authenticate the request.
+     * @param string $companyToken The token for the company whose payrun list is to be retrieved.
+     * @param array $arrRequest Extra parameters to be sent with the request.
+     *
+     * @return mixed The result of the payrun list request.
+     */
+    public function companyPayrunList(string $accountToken, string $companyToken, array $arrRequest = [])
+    {
+        $this->authenticate();
+        $this->restObject = new RestRequest(
+            $this->url . static::COMMAND_PAYRUN,
+            "POST",
+            array_merge(
+                $arrRequest,
+                array(
+                    "token" => self::$token,
+                    "account" => $accountToken,
+                    "company" => $companyToken,
+                    "action" => "list",
+                ),
+            )
+        );
+        $this->restObject->execute();
+        $this->parseResponse();
+
+        return $this->response->result;
+    }
+
+    /**
+     * Restarts a payrun for the specified company and account.
+     *
+     * @param string $accountToken The token associated with the account.
+     * @param string $companyToken The token associated with the company.
+     * @param string $payrunToken
+     *
+     * @return mixed The result of the restart operation.
+     */
+    public function companyPayrunRestart(string $accountToken, string $companyToken, string $payrunToken)
+    {
+        $this->authenticate();
+        $this->restObject = new RestRequest(
+            $this->url . static::COMMAND_PAYRUN,
+            "POST",
+            array(
+                "token" => self::$token,
+                "account" => $accountToken,
+                "company" => $companyToken,
+                "payrun" => $payrunToken,
+                "action" => "restart",
             )
         );
         $this->restObject->execute();
