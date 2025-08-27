@@ -936,7 +936,7 @@ class Client
      *
      * @return mixed The result of the payrun list request.
      */
-    public function companyPayrunList(string $accountToken, string $companyToken, array $arrRequest = [])
+    public function getPayRuns(string $accountToken, string $companyToken, array $arrRequest = [])
     {
         $this->authenticate();
         $this->restObject = new RestRequest(
@@ -967,7 +967,7 @@ class Client
      *
      * @return mixed The result of the restart operation.
      */
-    public function companyPayrunRestart(string $accountToken, string $companyToken, string $payrunToken)
+    public function restartPayRun(string $accountToken, string $companyToken, string $payrunToken)
     {
         $this->authenticate();
         $this->restObject = new RestRequest(
