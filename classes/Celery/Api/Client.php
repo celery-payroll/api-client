@@ -986,4 +986,83 @@ class Client
 
         return $this->response->result;
     }
+
+    /**
+     * Start the export of a specific company using the provided account and company tokens.
+     *
+     * @param string $accountToken
+     * @param string $companyToken
+     * @return mixed
+     */
+    public function companyExport(string $accountToken, string $companyToken)
+    {
+        $this->authenticate();
+        $this->restObject = new RestRequest(
+            $this->url . static::COMMAND_COMPANY,
+            "POST",
+            array(
+                "token" => self::$token,
+                "account" => $accountToken,
+                "company" => $companyToken,
+                "action" => "export"
+            )
+        );
+        $this->restObject->execute();
+        $this->parseResponse();
+
+        return $this->response->result;
+    }
+
+    /**
+     * Retrieves the export status of a specific company using the provided account and company tokens.
+     *
+     * @param string $accountToken
+     * @param string $companyToken
+     *
+     * @return mixed
+     */
+    public function companyExportStatus(string $accountToken, string $companyToken)
+    {
+        $this->authenticate();
+        $this->restObject = new RestRequest(
+            $this->url . static::COMMAND_COMPANY,
+            "POST",
+            array(
+                "token" => self::$token,
+                "account" => $accountToken,
+                "company" => $companyToken,
+                "action" => "export-status"
+            )
+        );
+        $this->restObject->execute();
+        $this->parseResponse();
+
+        return $this->response->result;
+    }
+
+    /**
+     * Get the export file of a specific company using the provided account and company tokens.
+     *
+     * @param string $accountToken
+     * @param string $companyToken
+     * @return mixed
+     */
+    public function companyExportDownload(string $accountToken, string $companyToken)
+    {
+        $this->authenticate();
+        $this->restObject = new RestRequest(
+            $this->url . static::COMMAND_COMPANY,
+            "POST",
+            array(
+                "token" => self::$token,
+                "account" => $accountToken,
+                "company" => $companyToken,
+                "action" => "export-download"
+            )
+        );
+        $this->restObject->execute();
+        $this->parseResponse();
+
+        return $this->response->result;
+    }
 }
