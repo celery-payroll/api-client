@@ -1061,8 +1061,7 @@ class Client
             )
         );
         $this->restObject->execute();
-        $this->parseResponse();
 
-        return $this->response->result;
+        return $this->restObject->getResponseBody();
     }
 }
