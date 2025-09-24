@@ -1061,7 +1061,36 @@ class Client
             )
         );
         $this->restObject->execute();
+        $strReturn = $this->restObject->getResponseBody();
 
-        return $this->restObject->getResponseBody();
+        // Quick check if the response is JSON.
+        if ($this->isJson($strReturn)) {
+            $this->parseResponse();
+            $strReturn = $this->response->result;
+        }
+
+        return $strReturn;
+    }
+
+    /**
+     * Determines if a given string is in JSON format based on its starting and ending characters.
+     *
+     * @param string $strValue
+     * @return bool
+     */
+    protected function isJson(string $strValue): bool
+    {
+        // The first character must be a { or a [
+        $strFirst = $strValue !== '' ? $strValue[0] : null;
+        $strLast  = $strValue !== '' ? $strValue[-1] : null;
+
+        // The last character must be a { or a [
+        if ($strFirst === '{' || $strFirst === '[') {
+            if ($strLast === '}' || $strLast === ']') {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
